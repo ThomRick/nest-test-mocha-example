@@ -1,0 +1,44 @@
+{
+  "name": "nest-test-mocha-example",
+  "version": "0.0.0",
+  "description": "Example testing Nest with mocha http://nestjs.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers ts-node/register src/**/*.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomRick/nest-test-mocha-example.git"
+  },
+  "keywords": [
+    "nestjs",
+    "mocha"
+  ],
+  "author": "ThomRick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ThomRick/nest-test-mocha-example/issues"
+  },
+  "homepage": "https://github.com/ThomRick/nest-test-mocha-example#readme",
+  "dependencies": {
+    "@nestjs/common": "^2.1.2",
+    "@nestjs/core": "^2.1.2",
+    "@nestjs/microservices": "^2.1.0",
+    "@nestjs/testing": "^2.0.3",
+    "@nestjs/websockets": "^2.1.1",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/sinon": "^2.2.2",
+    "@types/supertest": "^2.0.0",
+    "chai": "^4.0.0",
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.2",
+    "supertest": "^3.0.0",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.3"
+  }
+}
