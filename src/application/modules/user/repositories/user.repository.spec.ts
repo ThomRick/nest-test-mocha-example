@@ -1,16 +1,20 @@
 import {Test} from '@nestjs/testing';
 import {UserRepository} from './user.repository';
 import {expect} from 'chai';
-import {UserDetail} from '../../../core/interfaces/user-detail.interface';
 import * as sinon from 'sinon';
 import {InMemoryUserDatabase} from '../../../core/databases/in-memory-user.database';
 
 describe('UserRepository', () => {
   let sandbox: sinon.SinonSandbox;
+
   let repository: UserRepository;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   beforeEach(() => {
@@ -20,10 +24,6 @@ describe('UserRepository', () => {
       ]
     });
     repository = Test.get(UserRepository);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#create()', () => {

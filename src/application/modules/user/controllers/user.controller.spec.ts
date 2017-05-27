@@ -8,12 +8,20 @@ import {UserService} from '../services/user.service';
 import {UserRepository} from '../repositories/user.repository';
 
 describe('UserController', () => {
-  let controller: UserController;
-
   let sandbox: sinon.SinonSandbox;
+
+  let controller: UserController;
 
   let request: httpMocks.MockRequest;
   let response: httpMocks.MockResponse;
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   beforeEach(() => {
     Test.createTestingModule({
@@ -30,14 +38,6 @@ describe('UserController', () => {
       ]
     });
     controller = Test.get(UserController);
-  });
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#getAll()', () => {

@@ -7,10 +7,15 @@ import {UserRepository} from '../repositories/user.repository';
 
 describe('UserService', () => {
   let sandbox: sinon.SinonSandbox;
+
   let service: UserService;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   beforeEach(() => {
@@ -21,10 +26,6 @@ describe('UserService', () => {
       ]
     });
     service = Test.get(UserService);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#getAll()', () => {

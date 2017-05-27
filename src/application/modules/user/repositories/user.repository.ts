@@ -13,7 +13,7 @@ export class UserRepository {
     return this.database.create(user);
   }
 
-  public readAll(): Promise<Array<UserDetail>> {
+  public readAll(): Promise<UserDetail[]> {
     return this.database.read();
   }
 

@@ -8,7 +8,7 @@ export class UserService {
     private repository: UserRepository
   ) {}
 
-  public getAll(): Promise<Array<User>> {
+  public getAll(): Promise<User[]> {
     return this.repository.readAll();
   }
 }
