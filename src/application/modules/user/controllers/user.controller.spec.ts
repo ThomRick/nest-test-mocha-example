@@ -3,9 +3,15 @@ import {UserController} from './user.controller';
 import {expect} from 'chai';
 import * as httpMocks from 'node-mocks-http';
 import {EventEmitter} from 'events';
+import * as sinon from 'sinon';
+import {UserService} from '../services/user.service';
+import {UserRepository} from '../repositories/user.repository';
 
 describe('UserController', () => {
   let controller: UserController;
+
+  let sandbox: sinon.SinonSandbox;
+
   let request: httpMocks.MockRequest;
   let response: httpMocks.MockResponse;
 
@@ -13,12 +19,34 @@ describe('UserController', () => {
     Test.createTestingModule({
       controllers: [
         UserController
+      ],
+      components: [
+        {
+          provide: UserService,
+          useValue: {
+            getAll: () => {}
+          }
+        }
       ]
     });
     controller = Test.get(UserController);
   });
 
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('#getAll()', () => {
+    let getAllStub: sinon.SinonStub;
+
+    beforeEach(() => {
+      const service: UserService = Test.get(UserService);
+      getAllStub = sandbox.stub(service, 'getAll').callsFake(() => Promise.resolve([]));
+    });
 
     beforeEach(() => {
       request = httpMocks.createRequest({
@@ -35,7 +63,23 @@ describe('UserController', () => {
         expect(response._getStatusCode()).to.be.equal(200);
         done();
       });
-      controller.getAll(request, response);
+      controller.getAll(response);
+    });
+
+    it('should respond with a JSON', done => {
+      response.on('end', () => {
+        expect(response._isJSON()).to.be.true;
+        done();
+      });
+      controller.getAll(response);
+    });
+
+    it('should call UserService.getAll() once', done => {
+      response.on('end', () => {
+        expect(getAllStub.calledOnce).to.be.true;
+        done();
+      });
+      controller.getAll(response);
     });
   });
 
@@ -53,7 +97,7 @@ describe('UserController', () => {
         expect(response._getStatusCode()).to.be.equal(201);
         done();
       });
-      controller.create(request, response);
+      controller.create(request.body, response);
     });
   });
 });

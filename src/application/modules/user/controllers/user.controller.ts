@@ -1,16 +1,21 @@
-import {Controller, Get, Post, Req, Res} from '@nestjs/common';
+import {Body, Controller, Get, Post, Res} from '@nestjs/common';
+import {UserService} from '../services/user.service';
 
 @Controller('users')
 export class UserController {
-  constructor() {}
+  constructor(
+    private service: UserService
+  ) {}
 
   @Get()
-  public getAll(@Req() request, @Res() response) {
-    response.status(200).end();
+  public getAll(@Res() response) {
+    this.service.getAll().then(users => {
+      response.status(200).json(users);
+    });
   }
 
   @Post()
-  public create(@Req() request, @Res() response) {
+  public create(@Body() body, @Res() response) {
     response.status(201).end();
   }
 }
