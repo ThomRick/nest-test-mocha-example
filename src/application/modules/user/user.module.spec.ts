@@ -17,22 +17,25 @@ describe('UserModule', () => {
     application.init();
   });
 
-  it('should expose GET /users endpoint', done => {
-    supertest(instance)
-      .get('/users')
-      .end((error, response: superagent.Response) => {
-        expect(response.status).to.not.be.equal(404);
-        done();
-      });
+  describe('#endpoint /users', () => {
+    it('should expose GET method', done => {
+      supertest(instance)
+        .get('/users')
+        .end((error, response: superagent.Response) => {
+          expect(response.status).to.not.be.equal(404);
+          done();
+        });
+    });
+
+    it('should expose POST method', done => {
+      supertest(instance)
+        .post('/users')
+        .send(JSON.stringify({ nickname: 'nickname' }))
+        .end((error, response: superagent.Response) => {
+          expect(response.status).to.not.be.equal(404);
+          done();
+        });
+    });
   });
 
-  it('should expose POST /users endpoint', done => {
-    supertest(instance)
-      .post('/users')
-      .send(JSON.stringify({ nickname: 'nickname' }))
-      .end((error, response: superagent.Response) => {
-        expect(response.status).to.not.be.equal(404);
-        done();
-      });
-  })
 });
