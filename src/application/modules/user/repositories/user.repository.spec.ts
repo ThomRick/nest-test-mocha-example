@@ -27,46 +27,34 @@ describe('UserRepository', () => {
   });
 
   describe('#create()', () => {
-    it('should call InMemoryUserDatabase.create()', done => {
+    it('should call InMemoryUserDatabase.create()', async () => {
       const createStub: sinon.SinonStub = sandbox.stub(InMemoryUserDatabase.prototype, 'create').callsFake(() => Promise.resolve());
-      repository.create({ nickname: 'nickname' })
-        .then(() => {
-          expect(createStub.calledOnce).to.be.true;
-          done();
-        })
-        .catch(error => {
-          done(error);
-        });
+      await repository.create({ nickname: 'nickname' });
+      expect(createStub.calledOnce).to.be.true;
     });
   });
 
   describe('#readAll()', () => {
-    it('should call InMemoryUserDatabase.read()', done => {
+    it('should call InMemoryUserDatabase.read()', async () => {
       const readStub: sinon.SinonStub = sandbox.stub(InMemoryUserDatabase.prototype, 'read').callsFake(() => Promise.resolve());
-      repository.readAll().then(()=> {
-        expect(readStub.calledOnce).to.be.true;
-        done();
-      });
+      await repository.readAll();
+      expect(readStub.calledOnce).to.be.true;
     });
   });
 
   describe('#update()', () => {
-    it('should call InMemoryUserDatabase.update()', done => {
+    it('should call InMemoryUserDatabase.update()', async ()=> {
       const updateStub: sinon.SinonStub = sandbox.stub(InMemoryUserDatabase.prototype, 'update').callsFake(() => Promise.resolve());
-      repository.update({ id: 1, nickname: 'nickname', age: 18 }).then(()=> {
-        expect(updateStub.calledOnce).to.be.true;
-        done();
-      });
+      await repository.update({ id: 1, nickname: 'nickname', age: 18 });
+      expect(updateStub.calledOnce).to.be.true;
     });
   });
 
   describe('#delete()', () => {
-    it('should call InMemoryUserDatabase.delete()', done => {
+    it('should call InMemoryUserDatabase.delete()', async ()=> {
       const deleteStub: sinon.SinonStub = sandbox.stub(InMemoryUserDatabase.prototype, 'delete').callsFake(() => Promise.resolve());
-      repository.delete({ id: 1, nickname: 'nickname' }).then(()=> {
-        expect(deleteStub.calledOnce).to.be.true;
-        done();
-      });
+      await repository.delete({ id: 1, nickname: 'nickname' });
+      expect(deleteStub.calledOnce).to.be.true;
     });
   });
 });

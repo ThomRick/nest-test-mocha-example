@@ -1,5 +1,6 @@
 import {Body, Controller, Get, Post, Res} from '@nestjs/common';
 import {UserService} from '../services/user.service';
+import {User} from '../../../core/interfaces/user.interface';
 
 @Controller('users')
 export class UserController {
@@ -8,10 +9,9 @@ export class UserController {
   ) {}
 
   @Get()
-  public getAll(@Res() response) {
-    this.service.getAll().then(users => {
-      response.status(200).json(users);
-    });
+  public async getAll(@Res() response) {
+    const users: User[] = await this.service.getAll();
+    response.status(200).json(users);
   }
 
   @Post()

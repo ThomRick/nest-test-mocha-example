@@ -4,6 +4,8 @@ import {expect} from 'chai';
 import * as sinon from 'sinon';
 import {SinonStub} from 'sinon';
 import {UserRepository} from '../repositories/user.repository';
+import {UserDetail} from '../../../core/interfaces/user-detail.interface';
+import {User} from '../../../core/interfaces/user.interface';
 
 describe('UserService', () => {
   let sandbox: sinon.SinonSandbox;
@@ -29,15 +31,25 @@ describe('UserService', () => {
   });
 
   describe('#getAll()', () => {
-    it('should call UserRepository.readAll()', done => {
+    let readAllStub: SinonStub;
+
+    beforeEach(() => {
       const repository: UserRepository = Test.get(UserRepository);
-      const readAllStub: SinonStub = sandbox.stub(repository, 'readAll').callsFake(() => Promise.resolve());
-      service.getAll().then(() => {
-        expect(readAllStub.calledOnce).to.be.true;
-        done();
-      }).catch(error => {
-        done(error);
-      });
+      readAllStub = sandbox.stub(repository, 'readAll');
+    });
+
+    it('should call UserRepository.readAll()', async () => {
+      readAllStub.callsFake(() => Promise.resolve([]));
+      await service.getAll();
+      expect(readAllStub.calledOnce).to.be.true;
+    });
+
+    it('should map UserDetail[] from repository to User[]', async () => {
+      const userDetail: UserDetail = { id: 0, nickname: 'nickname', age: 18 };
+      const user: User = { id: 0, nickname: 'nickname'};
+      readAllStub.callsFake(() => Promise.resolve([ userDetail ]));
+      const users: User[] = await service.getAll();
+      expect(users).to.be.deep.equal([ user ]);
     });
   });
 });
