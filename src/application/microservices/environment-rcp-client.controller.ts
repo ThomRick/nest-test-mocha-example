@@ -1,5 +1,5 @@
 import {Client, ClientProxy} from '@nestjs/microservices';
-import {Controller, Get, Req, Res} from '@nestjs/common';
+import {Controller, Get, Query, Req, Res} from '@nestjs/common';
 import {Transport} from '@nestjs/microservices/enums';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -11,9 +11,8 @@ export class EnvironmentRpcClientController {
   private client: ClientProxy;
 
   @Get()
-  public get<T extends Object>(@Req() request, @Res() response): void {
+  public get<T extends Object>(@Query('moduleName') moduleName: string, @Res() response): void {
     const pattern = { cmd: 'get' };
-    const moduleName = request.query.moduleName;
     this.client.send<T>(pattern, moduleName)
       .subscribe(result => response.json({ data: result }));
   }
